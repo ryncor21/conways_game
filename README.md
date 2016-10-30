@@ -13,7 +13,7 @@ The algorithm walks through every cell in the array and performs the rules of th
 The *.cwg files are used to input starting patterns into the game.  
 The file name extension is arbitrary but I wanted to separate these files from regular text files.  
 '/' Character is used to comment out a line in an input file.  
-'@' Character is used to specify the name of the pattern stored in the file.
+'@' Character is used to specify the name of the pattern stored in the file.  
 Patterns are stored as hexadecimal numbers, which are converted to binary digits.  
 0 represents a dead cell and 1 represents a living cell.  
 If the pattern in the text file does not fill the game board, it will place the pattern into the middle of the board
