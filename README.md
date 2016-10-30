@@ -30,4 +30,3 @@ Of course, it is also possible to draw the starting pattern of the game in the G
 2.  Will show unneccessary dead cells when exporting the game as a hexadecimal String.  
 3.  There is a strange delay (sometimes) between clicking on a cell and alternating the cell.  
 4.  I can't get the ConwaysPanel to show up in the same JFrame as the controls. Thus, I have made a different JFrame.  
-5.  There is no timer to automatically run the game iterations. The user has to click.
