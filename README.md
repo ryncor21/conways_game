@@ -5,7 +5,7 @@ Information about this game can be found here:
 https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 
 # Game algorithm
-The game uses a "dead border" approach.  
+This implementation uses a "dead border" approach.  
 It uses a boolean array to store the game board.  
 The algorithm walks through every cell in the array and performs the rules of the game.
 
