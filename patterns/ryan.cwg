@@ -1,3 +1,8 @@
+/ This text file can be used as input for the ConwaysGame class
+/ Program ignores lines that begin with '/'
+/ Name of the pattern is specified by '@'
+/ Author: Ryan P. Corcoran
+@Ryan Corcoran Pattern
 1E44C220
 11292320
 110112A0
