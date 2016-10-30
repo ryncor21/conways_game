@@ -1,0 +1,9 @@
+/ This text file can be used as input for the ConwaysGame class
+/ Program ignores lines that begin with '/'
+/ Name of the pattern is specified by '@'
+/ Author: Ryan P. Corcoran
+@Small Exploder Pattern
+2
+7
+5
+2

@@ -1,0 +1,11 @@
+/ This text file can be used as input for the ConwaysGame class
+/ Program ignores lines that begin with '/'
+/ Name of the pattern is specified by '@'
+/ Author: Ryan P. Corcoran
+@Glider Pattern
+/0010
+/0001
+/0111
+2
+1
+7

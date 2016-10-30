@@ -1,0 +1,17 @@
+/ This text file can be used as input for the ConwaysGame class
+/ Program ignores lines that begin with '/'
+/ Name of the pattern is specified by '@'
+/ Author: Ryan P. Corcoran
+@Tumbler Pattern
+/0110 1100
+/0110 1100
+/0010 1000
+/1010 1010
+/1010 1010
+/1100 0110
+6C
+6C
+28
+AA
+AA
+C6

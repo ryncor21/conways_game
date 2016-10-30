@@ -1,0 +1,9 @@
+/ This text file can be used as input for the ConwaysGame class
+/ Program ignores lines that begin with '/'
+/ Name of the pattern is specified by '@'
+/ Author: Ryan P. Corcoran
+@Beacon Pattern
+30
+30
+0C
+0C
