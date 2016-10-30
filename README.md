@@ -15,7 +15,7 @@ and fill in the rest of the board with dead cells.
 The GUI was built with swing to test the class.   
   
 Current Problems are:  
-1.  This implementation not optimal. The algorithm checks every cell on the board when it probably only has to check cells that are near living cells.  
+1.  This implementation not optimal. There are ways to improve the computing time of the game.  
 2.  Will show unneccessary dead cells when exporting the game as a hexadecimal String.  
 3.  There is a strange delay (sometimes) between clicking on a cell and alternating the cell.  
 4.  I can't get the ConwaysPanel to show up in the same JFrame as the controls. Thus, I have made a different JFrame.  
