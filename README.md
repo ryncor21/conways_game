@@ -12,9 +12,9 @@ Patterns are stored as hexadecimal numbers, which are converted to binary digits
 If the pattern in the text file does not fill the game board, it will place the pattern into the middle of the board
 and fill in the rest of the board with dead cells.
 
-The GUI was built with swing to test the class.
+The GUI was built with swing to test the class.  
 
-Current Problems are:
-1. This implementation not optimal. The algorithm checks every cell on the board when it probably only has to check cells that are near living cells./n
-2. There is a strange delay (sometimes) between clicking on a cell and alternating the cell./n
-3. I can't get the ConwaysPanel to show up in the same JFrame as the controls. Thus, I have made a different JFrame./n
+Current Problems are:  
+1. This implementation not optimal. The algorithm checks every cell on the board when it probably only has to check cells that are near living cells.  
+2. There is a strange delay (sometimes) between clicking on a cell and alternating the cell.  
+3. I can't get the ConwaysPanel to show up in the same JFrame as the controls. Thus, I have made a different JFrame.  
