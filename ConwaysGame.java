@@ -1,10 +1,10 @@
-/* This is a class that represents Conway's Game of Life as a iSIZE by jSIZE
-** booolean array. It can accept a start matrix in hexadecimal form by text 
-** file or by passing from another class. It can also accept a start matrix
-** in full form by passing from another class. The input array is padded with
-** dead cells if it is below the size of the game board. The class uses the 
-** "dead-border" approach. Any live borders in the input will be killed
-** after the first iteration.
+/* This is a class that represents Conway's Game of Life as a booolean array.
+** The array size is given in the constructor. It can accept a start matrix in 
+** hexadecimal form by text file or by passing from another class. 
+** It can also accept a start matrix in full form by passing from another class.
+** The input array is padded with dead cells if it is below the size of the game board.
+** The class uses the  "dead-border" approach. Any live borders in the input 
+** will be killed after the first iteration.
 ** Author: Ryan P. Corcoran
 */
 
@@ -18,8 +18,6 @@ import java.util.Hashtable;
 public class ConwaysGame implements ConwaysInterface{
 
    //---Constants
-   public final int iSIZE = 32; //Down dimension
-   public final int jSIZE = 32; //Across dimension
    private final int BINARY_WORD = 4;
    private final String UNTITLED_NAME = "Untitled Pattern";
    private final Hashtable<String, String> BINARY_TO_HEX = new Hashtable<String, String>();
@@ -36,6 +34,10 @@ public class ConwaysGame implements ConwaysInterface{
    private final char DEAD_CHAR = '`';
       
    //---Instance Variables
+   //Size of the game board going down
+   private final int iSize;
+   //Size of the game board going across
+   private final int jSize;
    //Array to store the initial and current state of the game
    private Boolean[][] firstArray;
    //Array to temporarily store the next iteration of the game
@@ -45,29 +47,37 @@ public class ConwaysGame implements ConwaysInterface{
    //How many times the game was iterated        
    private Integer iterationCount = 0; 
    //String to store pattern name
-   private String patternName;
+   private String patternName = UNTITLED_NAME;
    
    //---Constructors
    //-Given a full start array
    public ConwaysGame(Boolean[][] start){
+      iSize = start.length;
+      jSize = start[0].length;
       setupHash();
       firstArray = start;   
    }
-   //-Given a valid compact input array
-   public ConwaysGame(String[] input) {
+   //-Given a valid compact input array and size of game board
+   public ConwaysGame(String[] input, int iSize, int jSize) {
+      this.iSize = iSize;
+      this.jSize = jSize;
       setupHash();
       this.input = input;
       processInput();          
    }
-   //-Given the name of a text file containing compact input
-   public ConwaysGame(String FileName) throws IOException  {
+   //-Given the name of a text file containing compact input and size of game board
+   public ConwaysGame(String FileName, int iSize, int jSize) throws IOException  {
+      this.iSize = iSize;
+      this.jSize = jSize;
       setupHash();
       processFile(FileName);
       processInput();
    }
    
-   //-Constructs an empty game object
-   public ConwaysGame() {
+   //-Constructs an empty game object of given size
+   public ConwaysGame(int iSize, int jSize) {
+      this.iSize = iSize;
+      this.jSize = jSize;
       setupHash();
       makeEmptyGrid();
       patternName = "Empty Grid";
@@ -76,9 +86,9 @@ public class ConwaysGame implements ConwaysInterface{
    /* Fills the game array with dead cells.
    */
    private void makeEmptyGrid() {
-      firstArray = new Boolean[iSIZE][jSIZE];
-      for(int i = 0; i <iSIZE; i++)
-         for(int j = 0; j <jSIZE; j++)
+      firstArray = new Boolean[iSize][jSize];
+      for(int i = 0; i <iSize; i++)
+         for(int j = 0; j <jSize; j++)
             firstArray[i][j] = false;
    }
    
@@ -110,7 +120,6 @@ public class ConwaysGame implements ConwaysInterface{
       input = new String[count];
       buffer = new BufferedReader(new FileReader(FileName));
       count = 0;
-      boolean nameFound = false;
       while (buffer.ready()){
          String line = buffer.readLine();
          if (line.charAt(0) == COMMENT_INDICATOR) {
@@ -118,7 +127,6 @@ public class ConwaysGame implements ConwaysInterface{
          }
          else if(line.charAt(0) == PATTERN_NAME_INDICATOR) {
             patternName = line.substring(1);
-            nameFound = true;
          }
          else {
             input[count] = line;
@@ -126,20 +134,18 @@ public class ConwaysGame implements ConwaysInterface{
          }
       }
       buffer.close();   
-      if(!nameFound) {
-         patternName = UNTITLED_NAME;
-      } 
    }
    
    /* Will process the input array that is in compact trimmed form.
-   ** It will fill in dead cells around the pattern.
+   ** It will place the pattern in the middle of the game board
+   ** and fill in dead cells around it.
    */
    private void processInput() {
       makeEmptyGrid();
       int patternWidth = input[0].length()*4;
       int patternHeight = input.length;
-      int iStart = (iSIZE - patternHeight)/2;
-      int jStart = (jSIZE - patternWidth)/2;
+      int iStart = (iSize - patternHeight)/2;
+      int jStart = (jSize - patternWidth)/2;
       for(int i = 0; i < input.length; i++) {
          for (int j = 0; j < input[i].length(); j++) {
             String binary = HEX_TO_BINARY.get(""+input[i].charAt(j));
@@ -172,11 +178,11 @@ public class ConwaysGame implements ConwaysInterface{
       }
    }
    
-   /* Will return whether the coordinates indicated by i and j fall on the
+   /* Will return true if the coordinates indicated by i and j fall on the
    ** border of the game area.
    */
    private boolean isBorder(int i, int j) {
-      if(i == iSIZE-1 || i == 0 || j == jSIZE-1 || j == 0) {
+      if(i == iSize-1 || i == 0 || j == jSize-1 || j == 0) {
          return true;
       }
       else {
@@ -217,9 +223,9 @@ public class ConwaysGame implements ConwaysInterface{
    @Override
    public void iterate() {
       iterationCount++;
-      nextArray = new Boolean[iSIZE][jSIZE];
-      for(int i = 0; i < iSIZE; i++) {
-         for (int j = 0; j < jSIZE; j++) {
+      nextArray = new Boolean[iSize][jSize];
+      for(int i = 0; i < iSize; i++) {
+         for (int j = 0; j < jSize; j++) {
             if(isBorder(i,j)) {
                nextArray[i][j] = false;
             }
@@ -252,8 +258,8 @@ public class ConwaysGame implements ConwaysInterface{
    */
    @Override
    public void show() {
-      for (int i = 0; i < iSIZE; i++) {
-         for (int j = 0; j < jSIZE; j++) {
+      for (int i = 0; i < iSize; i++) {
+         for (int j = 0; j < jSize; j++) {
             if(firstArray[i][j]) {
                System.out.print(LIVING_CHAR); 
             }
@@ -270,11 +276,11 @@ public class ConwaysGame implements ConwaysInterface{
    */
    @Override
    public void showCompact() {
-      String[] result = new String[iSIZE];
+      String[] result = new String[iSize];
       String binary = "";
-      for(int i = 0; i < iSIZE; i++) {
+      for(int i = 0; i < iSize; i++) {
          result[i] = "";
-         for(int j = 0; j < jSIZE; j++) {
+         for(int j = 0; j < jSize; j++) {
             binary+=boolToChar(firstArray[i][j]);
             if((j+1)%BINARY_WORD == 0) {
                result[i]+=BINARY_TO_HEX.get(binary);
@@ -285,14 +291,15 @@ public class ConwaysGame implements ConwaysInterface{
       }
    }
    
-   /* Returns the current game state as a compact hex string.
+   /* Returns the current game state as a compact hex string, including
+   ** all the dead cells surrounding the pattern.
    */
    @Override
    public String getCompact() {
       String result = "";
       String binary = "";
-      for(int i = 0; i < iSIZE; i++) {
-         for(int j = 0; j < jSIZE; j++) {
+      for(int i = 0; i < iSize; i++) {
+         for(int j = 0; j < jSize; j++) {
             binary+=boolToChar(firstArray[i][j]);
             if((j+1)%BINARY_WORD == 0) {
                result+=BINARY_TO_HEX.get(binary);
@@ -330,8 +337,8 @@ public class ConwaysGame implements ConwaysInterface{
    @Override
    public Double deadCells() {
       Double count = 0.0;
-      for(int i = 0; i < iSIZE; i++) {
-         for(int j = 0; j < jSIZE; j++) {
+      for(int i = 0; i < iSize; i++) {
+         for(int j = 0; j < jSize; j++) {
             if(!firstArray[i][j]){
                count+=1.0;
             }
@@ -345,8 +352,8 @@ public class ConwaysGame implements ConwaysInterface{
    @Override
    public Double livingCells() {
       Double count = 0.0;
-      for(int i = 0; i < iSIZE; i++) {
-         for(int j = 0; j < jSIZE; j++) {
+      for(int i = 0; i < iSize; i++) {
+         for(int j = 0; j < jSize; j++) {
             if(firstArray[i][j]){
                count+=1.0;
             }
