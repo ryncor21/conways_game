@@ -24,8 +24,7 @@ Of course, it is also possible to draw the starting pattern of the game in the G
   
  
   
-# Current Issues
-0.  The game board size is a fixed constant. It may be desirable to change the size of the board.  
+# Current Issues 
 1.  This implementation not optimal. There are ways to improve the computing time of the game.  
 2.  Will show unneccessary dead cells when exporting the game as a hexadecimal String.  
 3.  There is a strange delay (sometimes) between clicking on a cell and alternating the cell.  
