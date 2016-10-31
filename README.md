@@ -25,6 +25,7 @@ Of course, it is also possible to draw the starting pattern of the game in the G
  
   
 # Current Issues 
+0.  GUI does not allow user to change game board size.
 1.  This implementation not optimal. There are ways to improve the computing time of the game.  
 2.  Will show unneccessary dead cells when exporting the game as a hexadecimal String.  
 3.  There is a strange delay (sometimes) between clicking on a cell and alternating the cell.  
