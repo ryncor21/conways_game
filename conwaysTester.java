@@ -4,7 +4,7 @@
 import java.io.IOException;
 public class conwaysTester {
    public static void main (String[] args) throws IOException {
-      ConwaysGame x = new ConwaysGame("beacon.cwg");
+      ConwaysGame x = new ConwaysGame("beacon.cwg",32,32);
       for(int i = 0; i < 3; i++) {
          System.out.println("Iteration: "+i);
          System.out.println("Compact:");
