@@ -27,40 +27,41 @@ import java.awt.event.MouseEvent;
 public class conwaysTesterGUI {
    
    //--Accessible anywhere in this class
-   //Conways Game instance
-   private static ConwaysGame game = new ConwaysGame();
-   //Timer to animate the game
-   private static Timer time;
-   //Pixel size of square cells
-   private static final int CELL_SIZE = 15;
-   //Time in milliseconds to animate the game board
-   private static int timeCut = 150;
-   //Start or stop the animation?
-   private static Boolean animate = true;;
+   private static final int iSIZE = 32;      //Size down
+   private static final int jSIZE = 32;      //Size across
+   private static final int CELL_SIZE = 15;  //Pixel size of square cells
+   private static Timer time;                //Timer to animate the game
+   private static Boolean animate = true;    //Start or stop the animation?
+   private static ConwaysGame game = new ConwaysGame(iSIZE,jSIZE);
    
    public static void main (String args[]) {
          
       //Init GUI Objects
-      ConwaysPanel gameBoard = new ConwaysPanel();
-      JFrame gameFrame = new JFrame();
-      JFrame controlFrame = new JFrame();
-      JPanel buttonPanel = new JPanel();
-      JLabel countLbl = new JLabel();
-      JLabel inputFileLbl = new JLabel("Input File:");
-      JLabel delayLbl = new JLabel("Delay in ms:");
-      JButton loadBtn = new JButton("Load");
-      JButton resetBtn = new JButton("Reset");
-      JButton hexBtn = new JButton("Show hex code");
-      JButton animateBtn = new JButton("Start Animation");
+      ConwaysPanel gameBoard  = new ConwaysPanel();
+      
+      JFrame  gameFrame    = new JFrame();
+      JFrame  controlFrame = new JFrame();
+      
+      JPanel  buttonPanel  = new JPanel();
+      
+      JLabel  countLbl     = new JLabel();
+      JLabel  inputFileLbl = new JLabel("Input File:");
+      JLabel  delayLbl     = new JLabel("Delay in ms:");
+      
+      JButton loadBtn      = new JButton("Load");
+      JButton resetBtn     = new JButton("Reset");
+      JButton hexBtn       = new JButton("Show hex code");
+      JButton animateBtn   = new JButton("Start Animation");
+      
       JTextField fileInputBox = new JTextField();
-      JSlider delaySlider = new JSlider(50,700,400);
       
+      JSlider    delaySlider  = new JSlider(50,700,400);//(min,max,init)
       
-      //try to get runtime input to start game.      
+      //Try to get runtime input to start game.      
       if(args.length!=0) {
          try {
             fileInputBox.setText(args[0]);
-            game = new ConwaysGame(args[0]);
+            game = new ConwaysGame(args[0],iSIZE,jSIZE);
          }
          catch (IOException q) {
             System.out.println("ERROR: File specified by runtime arguement not found.");
@@ -73,7 +74,9 @@ public class conwaysTesterGUI {
 
       //Add things together
       gameFrame.add(gameBoard);
+      
       controlFrame.add(buttonPanel);
+      
       buttonPanel.add(inputFileLbl);
       buttonPanel.add(fileInputBox);
       buttonPanel.add(loadBtn);
@@ -83,7 +86,8 @@ public class conwaysTesterGUI {
       buttonPanel.add(delaySlider);
       buttonPanel.add(animateBtn);
       buttonPanel.add(countLbl);
-      time = new Timer(timeCut, 
+      
+      time = new Timer(delaySlider.getModel().getValue(), 
          new ActionListener() {
             public void actionPerformed (ActionEvent e) {
                game.iterate();
@@ -138,7 +142,7 @@ public class conwaysTesterGUI {
       resetBtn.addActionListener(
          new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               game = new ConwaysGame();
+               game = new ConwaysGame(iSIZE,jSIZE);
                gameFrame.repaint();
                countLbl.setText("Iteration: "+game.getCount()+"");
                controlFrame.setTitle("Game Controls - "+game.getPatternName());
@@ -148,7 +152,7 @@ public class conwaysTesterGUI {
          new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
                try {
-                  game = new ConwaysGame(fileInputBox.getText());
+                  game = new ConwaysGame(fileInputBox.getText(),iSIZE,jSIZE);
                   gameFrame.repaint();
                   countLbl.setText("Iteration: "+game.getCount()+"");
                   controlFrame.setTitle("Game Controls - "+game.getPatternName());
@@ -160,24 +164,28 @@ public class conwaysTesterGUI {
          } );
       
       //Set it all up
-      gameFrame.setTitle("Conway's Game of Life "+game.iSIZE+"x"+game.jSIZE+" by Ryan P. Corcoran");
-      gameFrame.setBounds(200,200,17+game.jSIZE*(CELL_SIZE),40+game.iSIZE*(CELL_SIZE));
+      gameFrame.setTitle("Conway's Game of Life "+iSIZE+"x"+jSIZE+" by Ryan P. Corcoran");
+      gameFrame.setBounds(200,200,17+jSIZE*(CELL_SIZE),40+iSIZE*(CELL_SIZE));
       gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       gameFrame.setVisible(true);
+      
       countLbl.setText("Iteration: "+game.getCount()+"");
+      
       fileInputBox.setPreferredSize(new Dimension(200,24));
+      
       delaySlider.setMinorTickSpacing(10);
       delaySlider.setMajorTickSpacing(100);
       delaySlider.setPaintTicks(true);
+      
       controlFrame.setBounds(200,750,570,130);
       controlFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       controlFrame.setVisible(true);      
    }
-
+   //Panel to draw the game
    public static class ConwaysPanel extends JPanel {
       public void paint(Graphics g) {
-         for(int i = 0; i < game.iSIZE; i++) {
-            for (int j = 0; j < game.jSIZE; j++) {
+         for(int i = 0; i < iSIZE; i++) {
+            for (int j = 0; j < jSIZE; j++) {
                if(game.getBoard()[i][j] == true) {
                   g.fillRect((CELL_SIZE*j),(CELL_SIZE*i),CELL_SIZE,CELL_SIZE);
                }
